@@ -1,6 +1,5 @@
-import React from 'react';
 import { HomeScreen, HomeOptions } from '../screen/home';
-import { ExamScheduleOptions, ExamScheduleScreen } from '../screen/exam-schedule';
+import { ExamScheduleScreen, ExamScheduleOptions } from '../screen/exam-schedule';
 
 export const MainNavigation = {
   HomeSreen: {

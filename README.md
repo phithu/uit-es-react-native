@@ -10,3 +10,4 @@
 - https://github.com/realm/realm-js/issues/471
 - https://github.com/uqmessias/react-native-content-loader/commit/defa76dfefd93a41e1b3db30cd7a81d854c950a8
 - https://github.com/uqmessias/react-native-content-loader/blob/5557d2d9036b2a32bc2ad889c03e43bdf2d20b16/src/index.js
+- https://www.ctheu.com/2015/02/12/how-to-communicate-between-react-components/#children-to-parent

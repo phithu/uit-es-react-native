@@ -1,6 +1,19 @@
-import React, { Component } from 'react';
-import { FlatList, ScrollView, View, TextInput } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import React,
+{
+  Component
+}
+  from 'react';
+import {
+  FlatList,
+  ScrollView,
+  View,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity
+} from 'react-native';
+// import { SearchBar } from 'react-native-elements';
+
 import axios from 'axios';
 import * as _ from 'lodash';
 import { StatusBarComponent } from '../../components/status-bar';
@@ -9,6 +22,7 @@ import { Utilitiesstyle } from '../../styles/utilities';
 import { AppConst } from '../../config/app-const';
 import { HomeStyle } from './style';
 import { LogsLoader } from '../../components/loading/logs-loader';
+import { SearchBar } from '../../components/search-bar';
 
 export class HomeScreen extends Component {
 
@@ -16,10 +30,10 @@ export class HomeScreen extends Component {
     super(props);
     this.state = {
       data: [],
-      loading: false
+      loading: false,
+      idStudent: ''
     }
   }
-
 
   componentDidMount() {
     axios.get(`${AppConst.domain}/logs`)
@@ -40,17 +54,23 @@ export class HomeScreen extends Component {
       })
   }
 
-  goSecond = () => {
-    this.props.navigation.navigate('ExamScheduleScreen', {
-      data: 'hahaha'
-    });
+  openExamScheduleScreen(idStudent) {
+    if (AppConst.regexStudentId.test(idStudent)) {
+      this.props.navigation.navigate('ExamScheduleScreen', {
+        idStudent: idStudent
+      });
+    } else {
+      // hander errror
+      console.log('no');
+    }
   }
 
-  searchStudent = (text) => {
-    // console.log(text);
-    this.props.navigation.navigate('ExamScheduleScreen', {
-      idStudent: text
-    });
+  // onChangeStudent = (idStudent) => {
+  //   this.openExamScheduleScreen(idStudent);
+  // }
+
+  onSubmitStudent = (idStudent) => {
+    this.openExamScheduleScreen(idStudent);
   }
 
   render() {
@@ -72,10 +92,9 @@ export class HomeScreen extends Component {
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={Utilitiesstyle.margin10}>
         <StatusBarComponent />
-        {/* <TextInput keyboardType="numeric" /> */}
-        <SearchBar keyboardType="numeric" inputStyle={HomeStyle.SearchBarInput} containerStyle={HomeStyle.SearchBarContainer} lightTheme
-          onChangeText={_.debounce(this.searchStudent, 500)}
-          placeholder='Mã số sinh viên...' />
+        <View>
+            <SearchBar onSubmit={this.onSubmitStudent}/>
+        </View>
         <View width={'100%'} style={HomeStyle.wrapper}>
           {content}
         </View>
