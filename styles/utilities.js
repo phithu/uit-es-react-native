@@ -12,6 +12,12 @@ export const Utilitiesstyle = StyleSheet.create({
   marginTop10: {
     marginTop: 10
   },
+  marginLeft5: {
+    marginLeft: 5
+  },
+  marginLeft2: {
+    marginLeft: 2
+  },
   layoutCol: {
     flex: 1,
     flexDirection: 'column'
@@ -22,5 +28,11 @@ export const Utilitiesstyle = StyleSheet.create({
   },
   alignItems: {
     alignItems: 'center'
+  },
+  fontBold: {
+    fontWeight: 'bold'
+  },
+  fontSize16: {
+    fontSize: 16
   }
 })

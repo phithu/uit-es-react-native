@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
-import { Text, View, ListView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import axios from 'axios';
 import { AppConst } from '../../config/app-const';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import { ListSchedule } from '../../components/schedule/list-schedule';
+import { Utilitiesstyle } from '../../styles/utilities';
+import { ListScheduleLoader } from '../../components/loading/schedule-loader';
+
+
 
 export class ExamScheduleScreen extends Component {
 
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       idStudent: this.props.navigation.state.params.idStudent,
       loaded: false,
-      response: null,
       isExistStudent: null // <-- Check idStudent exist // true: exist, false: not exist
     }
   }
@@ -20,24 +22,27 @@ export class ExamScheduleScreen extends Component {
   componentDidMount() {
     axios.post(`${AppConst.domain}/student`, { idStudent: this.state.idStudent })
       .then((response) => {
-        let data = response.data;
-        this.setState({ response: data, loaded: true });
-        console.log(this.state.response.data.examSchedule)
-        if (data.result) {
-          if (data.data) { // <-- The student exist in database
-            // console.log(data.data);
-            this.setState({ isExistStudent: true });
-            this.props.navigation.setParams({ title: `Lịch thi ${data.data.nameStudent}` });
+        let result = response.data;
+        if (result.result) {
+          if (result.data) { // <-- The student exist in database
+            this.setState({
+              isExistStudent: true,
+              listData: result.data.examSchedule,
+              nameStudent: result.data.nameStudent
+            })
+            this.props.navigation.setParams({ title: `Lịch thi ${this.state.nameStudent}` });
           } else {  // <-- The student haven't exist in database yet
-            // console.log(data.msg);
-            this.setState({ isExistStudent: false });
+            this.setState({
+              isExistStudent: false,
+              messages: result.data.msg
+            });
             this.props.navigation.setParams({ title: 'Sinh viên không tìm thấy' });
           }
         }
+        this.setState({ loaded: true });
       })
       .catch((err) => console.log(err));
   }
-
 
 
   static navigationOptions = ({ navigation }) => ({
@@ -45,67 +50,23 @@ export class ExamScheduleScreen extends Component {
   });
 
   render() {
-    const { params } = this.props.navigation.state
-    const dataSource = [
-      {
-        id: 1,
-        name: 'David'
-      },
-      {
-        id: 2,
-        name: 'Nguyen'
-      },
-      {
-        id: 3,
-        name: 'HAHAH'
+    if (this.state.loaded) { // <-- Have loaded
+      // console.log(this.state)
+      if (this.state.isExistStudent) {
+        // render exam schedule
+        content = <ListSchedule listData={this.state.listData} />
+      } else {
+        // render the student not found
       }
-    ];
-    // const {listExeamSchedule} = this.state.response.data.examSchedule;
-    // console.log(this.state.response);
-    if (this.state.loaded) {
-      // console.log(this.state.response.data.examSchedule)
-      let listExeamSchedule = this.state.response.data.examSchedule;
-      content = <SwipeListView
-        dataSource={ds.cloneWithRows(listExeamSchedule)}
-        renderRow={data => (
-          <View>
-            <Text>I am {data} in a SwipeListView</Text>
-          </View>
-        )}
-        renderHiddenRow={data => (
-          <View>
-            <Text>Left</Text>
-            <Text>Right</Text>
-          </View>
-        )}
-        leftOpenValue={75}
-        rightOpenValue={-75}
-      />
-    } else {
-      content = <Text>Loading</Text>
+    } else {  // <-- Haven't loaded yet
+      // render loading
+      content = <ListScheduleLoader number={4} widthWrapper={AppConst.width - 20} />
     }
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
     return (
-      // <Text>HAHA</Text>
-      // <View>
-      //   {content}
-      // </View>
-      <SwipeListView
-        dataSource={ds.cloneWithRows(dataSource)}
-        renderRow={data => (
-          <View>
-            <Text>I am {data} in a SwipeListView</Text>
-          </View>
-        )}
-        renderHiddenRow={data => (
-          <View>
-            <Text>Left</Text>
-            <Text>Right</Text>
-          </View>
-        )}
-        leftOpenValue={75}
-        rightOpenValue={-75}
-      />
+      <ScrollView showsVerticalScrollIndicator={false} style={Utilitiesstyle.margin10}>
+        {content}
+      </ScrollView>
     )
   }
 }

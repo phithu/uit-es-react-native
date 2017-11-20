@@ -21,7 +21,7 @@ import { LogsComponent } from '../../components/logs';
 import { Utilitiesstyle } from '../../styles/utilities';
 import { AppConst } from '../../config/app-const';
 import { HomeStyle } from './style';
-import { LogsLoader } from '../../components/loading/logs-loader';
+import { ListLogsLoader } from '../../components/loading/logs-loader';
 import { SearchBar } from '../../components/search-bar';
 
 export class HomeScreen extends Component {
@@ -80,20 +80,13 @@ export class HomeScreen extends Component {
         renderItem={({ item }) => <LogsComponent time={item.time} idStudent={item.idStudent}
           nameStudent={item.nameStudent} />} />
     } else {
-      content = <View>
-        <LogsLoader widthWrapper={AppConst.width - 20} />
-        <LogsLoader widthWrapper={AppConst.width - 20} />
-        <LogsLoader widthWrapper={AppConst.width - 20} />
-        <LogsLoader widthWrapper={AppConst.width - 20} />
-        <LogsLoader widthWrapper={AppConst.width - 20} />
-        <LogsLoader widthWrapper={AppConst.width - 20} />
-      </View>
+      content = <ListLogsLoader number={12} widthWrapper={AppConst.width - 20} />
     }
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={Utilitiesstyle.margin10}>
         <StatusBarComponent />
         <View>
-            <SearchBar onSubmit={this.onSubmitStudent}/>
+          <SearchBar onSubmit={this.onSubmitStudent} />
         </View>
         <View width={'100%'} style={HomeStyle.wrapper}>
           {content}

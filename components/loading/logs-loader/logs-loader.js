@@ -6,9 +6,6 @@ import { AppConst } from '../../../config/app-const';
 import { LogConfig } from './log-config';
 export class LogsLoader extends Component {
 
-  componentDidMount() {
-
-  }
   setSize(percent) {
     percent = (percent / 100);
     let widthWrapper = (this.props.widthWrapper * percent);

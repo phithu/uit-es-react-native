@@ -1,1 +1,1 @@
-export * from './logs-loader';
+export * from './list-logs-loader';
