@@ -1,14 +1,13 @@
 
 import React from 'react';
-import {
-  AppRegistry,
-} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { ScreenOptions } from './screen/screen-options';
-import { MainNavigation } from './navigation'
-export const App = StackNavigator(
-  MainNavigation,
-  {
+import { MainNavigation } from './navigation';
+import { enhance } from 'react-navigation-addons';
+
+export default App = enhance(StackNavigator)(
+  MainNavigation, {
     navigationOptions: ScreenOptions
   }
+
 );

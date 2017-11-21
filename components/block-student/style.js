@@ -1,7 +1,7 @@
 import { StyleSheet, ViewStyle } from 'react-native';
 import { AppConst } from '../../config/app-const';
 
-export const logsStyle = StyleSheet.create({
+export const BlockStudentStyle = StyleSheet.create({
   logWrapper: {
     flex: 1,
     flexDirection: 'row',
@@ -15,7 +15,7 @@ export const logsStyle = StyleSheet.create({
       marginRight: 10,
       color: '#555'
   },
-  timeWrapper: {
+  footer: {
     borderStyle: 'solid',
     borderTopColor: AppConst.color.primary,
     borderTopWidth: 2,
@@ -24,7 +24,7 @@ export const logsStyle = StyleSheet.create({
     flexWrap:'wrap',
     justifyContent: 'flex-end'
   },
-  timeText: {
+  footerText: {
     backgroundColor: AppConst.color.primary,
     color: '#fff',
     textAlign: 'right',

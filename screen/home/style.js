@@ -8,7 +8,7 @@ export const HomeStyle = {
   },
   wrapper: {
     backgroundColor: '#fff',
-    elevation: 10,
+    // elevation: 10,
     marginTop: 20
   },
   textRecent: {

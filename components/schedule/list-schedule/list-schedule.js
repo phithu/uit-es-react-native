@@ -18,10 +18,11 @@ export class ListSchedule extends Component {
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     // this.openListSchedule.bind(this);
   }
-  openListSchedule() {
-    // this.props.navigation.navigate('ExamRoomScreen');
-    this.props.openListSchedule();
+
+  openListSchedule = (data) => {
+    this.props.openListSchedule(data);
   }
+
   render() {
     return (
       <SwipeListView
@@ -36,14 +37,22 @@ export class ListSchedule extends Component {
             <ScheduleRow title="Phòng thi: " value={item.room} />
           </View>
         )}
-        renderHiddenRow={data => (
+        renderHiddenRow={(data) => (
           <View style={[Utilitiesstyle.layoutRow, ListScheduleStyle.frontBack]}>
-            <TouchableOpacity activeOpacity={0.7} onPress={this.openListSchedule.bind(this)} style={ListScheduleStyle.frontBackLeft}>
-                <Icon name="people" size={25} color="#fff" />
+            <TouchableOpacity 
+                              activeOpacity={0.7} 
+                              onPress={() => this.openListSchedule(data)} 
+                              style={ListScheduleStyle.frontBackLeft} >
+                <Icon 
+                  name="people" 
+                  size={25} 
+                  color="#fff" />
                 <Text style={ListScheduleStyle.textfrontBack}>Danh sách phòng thi</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity activeOpacity={0.7} style={ListScheduleStyle.frontBackRight}>
+            <TouchableOpacity 
+                            activeOpacity={0.7} 
+                            style={ListScheduleStyle.frontBackRight}>
               <Icon name="notifications" size={25} color="#fff" />
               <Text style={ListScheduleStyle.textfrontBack}>Thông báo</Text>
             </TouchableOpacity>
