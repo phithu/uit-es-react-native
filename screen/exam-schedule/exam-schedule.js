@@ -5,6 +5,7 @@ import { AppConst } from '../../config/app-const';
 import { ListSchedule } from '../../components/schedule/list-schedule';
 import { Utilitiesstyle } from '../../styles/utilities';
 import { ListScheduleLoader } from '../../components/loading/schedule-loader';
+import * as _ from 'lodash';
 
 
 
@@ -12,12 +13,23 @@ export class ExamScheduleScreen extends Component {
 
   constructor(props) {
     super(props);
+    // console.log(this.props);
     this.state = {
       idStudent: this.props.navigation.state.params.idStudent,
       loaded: false,
       isExistStudent: null // <-- Check idStudent exist // true: exist, false: not exist
     }
   }
+
+  // componentWillMount() {
+  //   this.isOpen = false;
+  //   console.log('will');
+  // }
+
+  // componentWillUnmount() {
+  //   this.isOpen = false;
+  //   console.log('un will')
+  // }
 
   componentDidMount() {
     axios.post(`${AppConst.domain}/student`, { idStudent: this.state.idStudent })
@@ -44,6 +56,39 @@ export class ExamScheduleScreen extends Component {
       .catch((err) => console.log(err));
   }
 
+  // componentWillFocus() {
+  //   console.log('componentWillFocus');
+  // }
+
+  // componentDidFocus() {
+  //   console.log('componentDidFocus');
+  // }
+
+  // componentWillBlur() {
+  //   console.log('componentWillBlur');
+  // }
+
+  // componentDidBlur() {
+  //   console.log('componentDidBlur');
+  // }
+
+  openListSchedule = () => {
+    // console.log(this.isOpen);
+    // if(!this.isOpen) {
+    //   this.props.navigation.navigate('ExamRoomScreen', {
+    //     onNavigateBack: console.log('haha')
+    //   });
+    //   this.isOpen = true;
+    // }
+    this.props.navigation.navigate('ExamRoomScreen', {
+      onNavigateBack: console.log('haha')
+    });
+    
+  }
+  handleOnNavigateBack() {
+    console.log('haha')
+  }
+
 
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.title || 'Loading...'
@@ -54,7 +99,8 @@ export class ExamScheduleScreen extends Component {
       // console.log(this.state)
       if (this.state.isExistStudent) {
         // render exam schedule
-        content = <ListSchedule listData={this.state.listData} />
+        // content = <ListSchedule openListSchedule={_.debounce(this.openListSchedule, 300)} listData={this.state.listData} />
+        content = <ListSchedule openListSchedule={this.openListSchedule} listData={this.state.listData} />
       } else {
         // render the student not found
       }

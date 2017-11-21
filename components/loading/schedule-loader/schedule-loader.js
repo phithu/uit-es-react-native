@@ -18,7 +18,7 @@ export class ScheduleLoader extends Component {
   render() {
 
     return (
-      <View style={{ marginBottom: 15, backgroundColor: '#fff' }}>
+      <View style={{ backgroundColor: '#fff', borderBottomColor: '#eaeaea', borderBottomWidth: 1, }}>
         <ContentLoader primaryColor="#eaeaea"
           secondaryColor="#d4d6d8"
           duration={1100}

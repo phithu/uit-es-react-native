@@ -34,5 +34,11 @@ export const Utilitiesstyle = StyleSheet.create({
   },
   fontSize16: {
     fontSize: 16
+  },
+  textCenter: {
+    textAlign: 'center'
+  },
+  spaceBetween: {
+    justifyContent: 'space-between',
   }
 })
