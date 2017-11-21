@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import ContentLoader from 'react-native-content-loader';
+import { ContentLoader } from '../content-loader';
 import { Circle, Rect } from 'react-native-svg';
 import { ScheduleConfig } from './schedule-config';
 

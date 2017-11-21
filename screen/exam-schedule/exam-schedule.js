@@ -21,15 +21,6 @@ export class ExamScheduleScreen extends Component {
     }
   }
 
-  // componentWillMount() {
-  //   this.isOpen = false;
-  //   console.log('will');
-  // }
-
-  // componentWillUnmount() {
-  //   this.isOpen = false;
-  //   console.log('un will')
-  // }
 
   componentDidMount() {
     axios.post(`${AppConst.domain}/student`, { idStudent: this.state.idStudent })
@@ -56,22 +47,6 @@ export class ExamScheduleScreen extends Component {
       .catch((err) => console.log(err));
   }
 
-  // componentWillFocus() {
-  //   console.log('componentWillFocus');
-  // }
-
-  // componentDidFocus() {
-  //   console.log('componentDidFocus');
-  // }
-
-  // componentWillBlur() {
-  //   console.log('componentWillBlur');
-  // }
-
-  // componentDidBlur() {
-  //   console.log('componentDidBlur');
-  // }
-
   openListSchedule = () => {
     // console.log(this.isOpen);
     // if(!this.isOpen) {
@@ -96,11 +71,10 @@ export class ExamScheduleScreen extends Component {
 
   render() {
     if (this.state.loaded) { // <-- Have loaded
-      // console.log(this.state)
       if (this.state.isExistStudent) {
         // render exam schedule
-        // content = <ListSchedule openListSchedule={_.debounce(this.openListSchedule, 300)} listData={this.state.listData} />
-        content = <ListSchedule openListSchedule={this.openListSchedule} listData={this.state.listData} />
+        content = <ListSchedule openListSchedule={_.debounce(this.openListSchedule, 300)} listData={this.state.listData} />
+        // content = <ListSchedule openListSchedule={this.openListSchedule} listData={this.state.listData} />
       } else {
         // render the student not found
       }

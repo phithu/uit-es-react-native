@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import { View } from 'react-native'
-import ContentLoader from 'react-native-content-loader';
+import { ContentLoader } from '../content-loader';
 import { Circle, Rect } from 'react-native-svg';
 import { AppConst } from '../../../config/app-const';
 import { LogConfig } from './log-config';
@@ -19,7 +19,7 @@ export class LogsLoader extends Component {
   render() {
 
     return (
-      <View style={{marginBottom: 15}}>
+      <View style={{ marginBottom: 15 }}>
         <ContentLoader primaryColor="#eaeaea"
           secondaryColor="#d4d6d8"
           duration={1100}
