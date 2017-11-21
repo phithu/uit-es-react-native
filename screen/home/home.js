@@ -1,23 +1,15 @@
-import React,
-{
-  Component
-}
-  from 'react';
+import React,{ Component }from 'react';
 import {
   FlatList,
   ScrollView,
   View,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  TouchableOpacity
+  BackHandler
 } from 'react-native';
-// import { SearchBar } from 'react-native-elements';
-
 import axios from 'axios';
 import * as _ from 'lodash';
+
 import { StatusBarComponent } from '../../components/status-bar';
-import { LogsComponent } from '../../components/logs';
+import { BlockStudent } from '../../components/block-student';
 import { Utilitiesstyle } from '../../styles/utilities';
 import { AppConst } from '../../config/app-const';
 import { HomeStyle } from './style';
@@ -30,30 +22,37 @@ export class HomeScreen extends Component {
     super(props);
     this.state = {
       data: [],
-      loading: false,
+      loaded: false,
       idStudent: ''
     }
   }
 
-  componentDidMount() {
+  /**
+   * Get log
+   * 
+   * 
+   * @memberOf HomeScreen
+   */
+  getLogs() {
     axios.get(`${AppConst.domain}/logs`)
       .then((response) => {
         if (typeof (response.data) !== 'string' && response.data.result) {
           this.setState({
             data: response.data.data,
-            loading: true
-          });
-        } else {
-          this.setState({
-            data: [],
-            loading: false
           });
         }
+        this.setState({loaded: true}) // <-- The data loaded
       }, (err) => {
         console.log('err', err)
       })
   }
-
+  /**
+   * 
+   * 
+   * @param {any} idStudent 
+   * 
+   * @memberOf HomeScreen
+   */
   openExamScheduleScreen(idStudent) {
     if (AppConst.regexStudentId.test(idStudent)) {
       this.props.navigation.navigate('ExamScheduleScreen', {
@@ -65,6 +64,21 @@ export class HomeScreen extends Component {
     }
   }
 
+  componentDidMount() {
+    
+    this.props.navigation.addListener('focus',this.onOpenScreen);
+    this.props.navigation.addListener('blur',this.onCloseScreen);
+  }
+
+  onOpenScreen = () => {
+    // console.log('_fetchData');
+    this.getLogs();
+  };
+
+  onCloseScreen = () => {
+    // do something when close screen
+  };
+
   // onChangeStudent = (idStudent) => {
   //   this.openExamScheduleScreen(idStudent);
   // }
@@ -73,24 +87,52 @@ export class HomeScreen extends Component {
     this.openExamScheduleScreen(idStudent);
   }
 
-  render() {
-    if (this.state.loading) {
-      content = <FlatList data={this.state.data}
-        keyExtractor={item => item.idStudent}
-        renderItem={({ item }) => <LogsComponent time={item.time} idStudent={item.idStudent}
-          nameStudent={item.nameStudent} />} />
-    } else {
-      content = <ListLogsLoader number={12} widthWrapper={AppConst.width - 20} />
+  renderListStudent() {
+    // get status's loaded from stats
+    const { loaded } = this.state;
+    
+    // if loaded done, then render list student
+    if(loaded) {
+      return (<FlatList 
+                data={this.state.data}
+                keyExtractor={item => item.idStudent}
+                renderItem={({ item }) => <BlockStudent 
+                                            type='logs' 
+                                            time={item.time} 
+                                            idStudent={item.idStudent}
+                                            nameStudent={item.nameStudent} 
+                                          />} 
+              />)
     }
+  }
+  renderLogLoader() {
+
+    // get status's loaded from stats
+    const { loaded } = this.state;
+    
+    // If loaded have not yet, then render list log loader
+    if(!loaded) {
+      return (
+        <ListLogsLoader number={12} widthWrapper={AppConst.width - 20} />
+      )
+    }
+
+  }
+
+  render() {
     return (
-      <ScrollView showsVerticalScrollIndicator={false} style={Utilitiesstyle.margin10}>
+      <ScrollView 
+          showsVerticalScrollIndicator={false}
+          style={Utilitiesstyle.margin10}
+      >
         <StatusBarComponent />
-        <View>
-          <SearchBar onSubmit={this.onSubmitStudent} />
-        </View>
-        <View width={'100%'} style={HomeStyle.wrapper}>
-          {content}
-        </View>
+          <View>
+            <SearchBar onSubmit={this.onSubmitStudent} />
+          </View>
+          <View style={HomeStyle.wrapper}>
+            {this.renderLogLoader()}
+            {this.renderListStudent()}
+          </View>
       </ScrollView>
     )
   }

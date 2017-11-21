@@ -3469,12 +3469,6 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-content-loader@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/react-native-content-loader/-/react-native-content-loader-0.1.6.tgz#4e75cd81351abc3f4aa2245d0fc5a1f71404db9b"
-  dependencies:
-    d3-interpolate "^1.1.5"
-
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"

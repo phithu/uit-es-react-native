@@ -13,7 +13,6 @@ export class ExamScheduleScreen extends Component {
 
   constructor(props) {
     super(props);
-    // console.log(this.props);
     this.state = {
       idStudent: this.props.navigation.state.params.idStudent,
       loaded: false,
@@ -21,8 +20,23 @@ export class ExamScheduleScreen extends Component {
     }
   }
 
-
   componentDidMount() {
+    this.getExamSchedule(); 
+    this.props.navigation.addListener('focus',this.onOpenScreen);
+    this.props.navigation.addListener('blur',this.onCloseScreen);
+  }
+
+  onOpenScreen = () => {
+    // do something when open screen
+    this.isOpen = false;
+   
+  };
+
+  onCloseScreen = () => {
+    // do something when close screen
+  };
+
+  getExamSchedule() {
     axios.post(`${AppConst.domain}/student`, { idStudent: this.state.idStudent })
       .then((response) => {
         let result = response.data;
@@ -47,23 +61,12 @@ export class ExamScheduleScreen extends Component {
       .catch((err) => console.log(err));
   }
 
-  openListSchedule = () => {
-    // console.log(this.isOpen);
-    // if(!this.isOpen) {
-    //   this.props.navigation.navigate('ExamRoomScreen', {
-    //     onNavigateBack: console.log('haha')
-    //   });
-    //   this.isOpen = true;
-    // }
-    this.props.navigation.navigate('ExamRoomScreen', {
-      onNavigateBack: console.log('haha')
-    });
-    
+  openListSchedule = (data) => {
+    if(!this.isOpen) {
+      this.props.navigation.navigate('ExamRoomScreen', {data: data, idStudent: this.state.idStudent});
+      this.isOpen = true;
+    }
   }
-  handleOnNavigateBack() {
-    console.log('haha')
-  }
-
 
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.title || 'Loading...'
@@ -73,18 +76,22 @@ export class ExamScheduleScreen extends Component {
     if (this.state.loaded) { // <-- Have loaded
       if (this.state.isExistStudent) {
         // render exam schedule
-        content = <ListSchedule openListSchedule={_.debounce(this.openListSchedule, 300)} listData={this.state.listData} />
-        // content = <ListSchedule openListSchedule={this.openListSchedule} listData={this.state.listData} />
+        // content = <ListSchedule openListSchedule={_.debounce(this.openListSchedule, 350)}
+        //   listData={this.state.listData} />
+        content = <ListSchedule openListSchedule={this.openListSchedule} 
+                                listData={this.state.listData} />
       } else {
         // render the student not found
       }
     } else {  // <-- Haven't loaded yet
       // render loading
-      content = <ListScheduleLoader number={4} widthWrapper={AppConst.width - 20} />
+      content = <ListScheduleLoader number={4} 
+                                    widthWrapper={AppConst.width - 20} />
     }
 
     return (
-      <ScrollView showsVerticalScrollIndicator={false} style={Utilitiesstyle.margin10}>
+      <ScrollView showsVerticalScrollIndicator={false} 
+                  style={Utilitiesstyle.margin10}>
         {content}
       </ScrollView>
     )
