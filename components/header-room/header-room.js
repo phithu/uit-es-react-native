@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
-import { Utilitiesstyle } from '../../styles/utilities';
+import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { AppConst } from '../../config/app-const';
+
 export class HeaderRoom extends Component {
   constructor(props) {
     super(props);
   }
+
   goBack() {
     this.props.goBack();
   }
+
   render() {
     return (
       <View style={style.styleHeader}>
-        <Text style={style.text} >Danh sách phòng thi</Text>
+        <Text style={style.text}>Danh sách phòng thi</Text>
         <TouchableNativeFeedback
           onPress={this.goBack.bind(this)}
           background={TouchableNativeFeedback.SelectableBackground()}>
           <View style={style.container}>
-            <Icon style={{paddingVertical:15}} name="close" size={25} color="#fff" />
+            <Icon style={{paddingVertical: 15}} name="close" size={25} color="#fff"/>
           </View>
         </TouchableNativeFeedback>
 
@@ -42,8 +44,8 @@ const style = StyleSheet.create({
     paddingLeft: 15
   },
   container: {
-    backgroundColor: 'transparent', 
-    height: 60, 
+    backgroundColor: 'transparent',
+    height: 60,
     width: 60,
     alignItems: 'center',
   }

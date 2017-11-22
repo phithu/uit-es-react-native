@@ -1,27 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Animated, Dimensions } from 'react-native';
+import { Animated, Dimensions, View } from 'react-native';
 
-import Svg, {
-  Circle,
-  Ellipse,
-  G,
-  LinearGradient,
-  RadialGradient,
-  Line,
-  Path,
-  Polygon,
-  Polyline,
-  Rect,
-  Symbol,
-  ClipPath,
-  Text,
-  Use,
-  Defs,
-  Stop
-} from 'react-native-svg';
+import Svg, { ClipPath, Defs, G, LinearGradient, Rect, Stop } from 'react-native-svg';
+
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
-const { interpolate } = require('d3-interpolate');
+const {interpolate} = require('d3-interpolate');
 const width = Dimensions.get('window').width;
 
 export class ContentLoader extends Component {
@@ -43,6 +27,7 @@ export class ContentLoader extends Component {
       .loopAnimation
       .bind(this)
   }
+
   offsetValueBound(x) {
     if (x > 1) {
       return '1'
@@ -70,7 +55,7 @@ export class ContentLoader extends Component {
 
     // setup interpolate
     let interpolator = interpolate(this.state, {
-      offsetValues: ['1', '1.5', '2']
+      offsetValues: [ '1', '1.5', '2' ]
     });
 
     // start animation
@@ -88,16 +73,16 @@ export class ContentLoader extends Component {
 
       let newState = interpolator(t);
       let offsetValues = [];
-      offsetValues[0] = this.offsetValueBound(newState.offsetValues[0]);
-      offsetValues[1] = this.offsetValueBound(newState.offsetValues[1]);
-      offsetValues[2] = this.offsetValueBound(newState.offsetValues[2]);
+      offsetValues[ 0 ] = this.offsetValueBound(newState.offsetValues[ 0 ]);
+      offsetValues[ 1 ] = this.offsetValueBound(newState.offsetValues[ 1 ]);
+      offsetValues[ 2 ] = this.offsetValueBound(newState.offsetValues[ 2 ]);
 
       // Make sure at least two offsets is different
       // original fix from: https://github.com/virusvn/react-native-svg-animated-linear-gradient/commit/b9558aab3bbd8f5be50204dd5cb67c9348c60fb9
-      if (offsetValues[0] !== offsetValues[1] ||
-        offsetValues[0] !== offsetValues[2] ||
-        offsetValues[1] !== offsetValues[2]) {
-        this.setState({ offsets: offsetValues });
+      if (offsetValues[ 0 ] !== offsetValues[ 1 ] ||
+        offsetValues[ 0 ] !== offsetValues[ 2 ] ||
+        offsetValues[ 1 ] !== offsetValues[ 2 ]) {
+        this.setState({offsets: offsetValues});
       }
       if (t < 1) {
         requestAnimationFrame(this._animation);
@@ -121,6 +106,7 @@ export class ContentLoader extends Component {
       }
     })
   }
+
   render() {
     return (
       <View>
@@ -128,17 +114,17 @@ export class ContentLoader extends Component {
           <Defs>
             <LinearGradient id="grad" x1={this.props.x1} y1={this.props.y1} x2={this.props.x2} y2={this.props.y2}>
               <Stop
-                offset={this.state.offsets[0]}
+                offset={this.state.offsets[ 0 ]}
                 stopColor={this.props.primaryColor}
-                stopOpacity="1" />
+                stopOpacity="1"/>
               <Stop
-                offset={this.state.offsets[1]}
+                offset={this.state.offsets[ 1 ]}
                 stopColor={this.props.secondaryColor}
-                stopOpacity="1" />
+                stopOpacity="1"/>
               <Stop
-                offset={this.state.offsets[2]}
+                offset={this.state.offsets[ 2 ]}
                 stopColor={this.props.primaryColor}
-                stopOpacity="1" />
+                stopOpacity="1"/>
             </LinearGradient>
             <ClipPath id="clip">
               <G>
@@ -153,12 +139,13 @@ export class ContentLoader extends Component {
             height={this.props.height}
             width={this.props.width}
             fill="url(#grad)"
-            clipPath="url(#clip)" />
+            clipPath="url(#clip)"/>
         </AnimatedSvg>
       </View>
     );
   }
 }
+
 ContentLoader.propTypes = {
   primaryColor: PropTypes.string,
   secondaryColor: PropTypes.string,

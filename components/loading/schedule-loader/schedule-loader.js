@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Rect } from 'react-native-svg';
+
 import { ContentLoader } from '../content-loader';
-import { Circle, Rect } from 'react-native-svg';
 import { ScheduleConfig } from './schedule-config';
 
 export class ScheduleLoader extends Component {
+
   setSize(percent) {
     percent = (percent / 100);
     let widthWrapper = (this.props.widthWrapper * percent);
@@ -18,53 +20,53 @@ export class ScheduleLoader extends Component {
   render() {
 
     return (
-      <View style={{ backgroundColor: '#fff', borderBottomColor: '#eaeaea', borderBottomWidth: 1, }}>
+      <View style={{backgroundColor: '#fff', borderBottomColor: '#eaeaea', borderBottomWidth: 1,}}>
         <ContentLoader primaryColor="#eaeaea"
-          secondaryColor="#d4d6d8"
-          duration={1100}
-          height={130}>
+                       secondaryColor="#d4d6d8"
+                       duration={1100}
+                       height={130}>
           <Rect x={13}
-            y="10"
-            rx={ScheduleConfig.radius}
-            ry={ScheduleConfig.radius}
-            rx={ScheduleConfig.radius}
-            width={this.setSize(ScheduleConfig.widthPercent).width + 13}
-            height={ScheduleConfig.heightRect} />
+                y="10"
+                rx={ScheduleConfig.radius}
+                ry={ScheduleConfig.radius}
+                rx={ScheduleConfig.radius}
+                width={this.setSize(ScheduleConfig.widthPercent).width + 13}
+                height={ScheduleConfig.heightRect}/>
           <Rect x={13}
-            y="30"
-            rx={ScheduleConfig.radius}
-            ry={ScheduleConfig.radius}
-            rx={ScheduleConfig.radius}
-            width={this.setSize(ScheduleConfig.widthPercent).width + 13}
-            height={ScheduleConfig.heightRect} />
+                y="30"
+                rx={ScheduleConfig.radius}
+                ry={ScheduleConfig.radius}
+                rx={ScheduleConfig.radius}
+                width={this.setSize(ScheduleConfig.widthPercent).width + 13}
+                height={ScheduleConfig.heightRect}/>
           <Rect x={13}
-            y="50"
-            rx={ScheduleConfig.radius}
-            ry={ScheduleConfig.radius}
-            rx={ScheduleConfig.radius}
-            width={this.setSize(ScheduleConfig.widthPercent).width + 13}
-            height={ScheduleConfig.heightRect} />
+                y="50"
+                rx={ScheduleConfig.radius}
+                ry={ScheduleConfig.radius}
+                rx={ScheduleConfig.radius}
+                width={this.setSize(ScheduleConfig.widthPercent).width + 13}
+                height={ScheduleConfig.heightRect}/>
           <Rect x={13}
-            y="70"
-            rx={ScheduleConfig.radius}
-            ry={ScheduleConfig.radius}
-            rx={ScheduleConfig.radius}
-            width={this.setSize(ScheduleConfig.widthPercent).width + 13}
-            height={ScheduleConfig.heightRect} />
+                y="70"
+                rx={ScheduleConfig.radius}
+                ry={ScheduleConfig.radius}
+                rx={ScheduleConfig.radius}
+                width={this.setSize(ScheduleConfig.widthPercent).width + 13}
+                height={ScheduleConfig.heightRect}/>
           <Rect x={13}
-            y="90"
-            rx={ScheduleConfig.radius}
-            ry={ScheduleConfig.radius}
-            rx={ScheduleConfig.radius}
-            width={this.setSize(ScheduleConfig.widthPercent).width + 13}
-            height={ScheduleConfig.heightRect} />
+                y="90"
+                rx={ScheduleConfig.radius}
+                ry={ScheduleConfig.radius}
+                rx={ScheduleConfig.radius}
+                width={this.setSize(ScheduleConfig.widthPercent).width + 13}
+                height={ScheduleConfig.heightRect}/>
           <Rect x={13}
-            y="110"
-            rx={ScheduleConfig.radius}
-            ry={ScheduleConfig.radius}
-            rx={ScheduleConfig.radius}
-            width={this.setSize(ScheduleConfig.widthPercent).width + 13}
-            height={ScheduleConfig.heightRect} />
+                y="110"
+                rx={ScheduleConfig.radius}
+                ry={ScheduleConfig.radius}
+                rx={ScheduleConfig.radius}
+                width={this.setSize(ScheduleConfig.widthPercent).width + 13}
+                height={ScheduleConfig.heightRect}/>
         </ContentLoader>
       </View>
     )

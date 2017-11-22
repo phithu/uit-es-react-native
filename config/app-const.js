@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native';
+
 export const AppConst = {
   domain: 'http://uit-es.herokuapp.com',
   color: {

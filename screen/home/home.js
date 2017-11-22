@@ -1,12 +1,7 @@
-import React,{ Component }from 'react';
-import {
-  FlatList,
-  ScrollView,
-  View,
-  BackHandler
-} from 'react-native';
+import React, { Component } from 'react';
+import { FlatList, ScrollView, View, } from 'react-native';
 import axios from 'axios';
-import * as _ from 'lodash';
+
 
 import { StatusBarComponent } from '../../components/status-bar';
 import { BlockStudent } from '../../components/block-student';
@@ -28,9 +23,9 @@ export class HomeScreen extends Component {
   }
 
   /**
-   * Get log
-   * 
-   * 
+   * Get logs
+   *
+   *
    * @memberOf HomeScreen
    */
   getLogs() {
@@ -46,11 +41,12 @@ export class HomeScreen extends Component {
         console.log('err', err)
       })
   }
+
   /**
-   * 
-   * 
-   * @param {any} idStudent 
-   * 
+   * Navigate to ExamSchedule Screen
+   *
+   * @param {any} idStudent
+   *
    * @memberOf HomeScreen
    */
   openExamScheduleScreen(idStudent) {
@@ -65,16 +61,22 @@ export class HomeScreen extends Component {
   }
 
   componentDidMount() {
-    
-    this.props.navigation.addListener('focus',this.onOpenScreen);
-    this.props.navigation.addListener('blur',this.onCloseScreen);
+
+    this.props.navigation.addListener('focus', this.onOpenScreen);
+    this.props.navigation.addListener('blur', this.onCloseScreen);
   }
 
+  /**
+   * Call when screen have been opened
+   */
   onOpenScreen = () => {
-    // console.log('_fetchData');
-    this.getLogs();
+
+    this.getLogs(); // Call again getLogs
   };
 
+  /**
+   * Call when screen have been navigated to screen other
+   */
   onCloseScreen = () => {
     // do something when close screen
   };
@@ -83,37 +85,44 @@ export class HomeScreen extends Component {
   //   this.openExamScheduleScreen(idStudent);
   // }
 
+  /**
+   * Call when submit button 'OK' on keyboard
+   * @param idStudent
+   */
   onSubmitStudent = (idStudent) => {
+
+    // Navigate from ExamScheduleScreen
     this.openExamScheduleScreen(idStudent);
   }
 
   renderListStudent() {
     // get status's loaded from stats
-    const { loaded } = this.state;
-    
+    const {loaded} = this.state;
+
     // if loaded done, then render list student
-    if(loaded) {
-      return (<FlatList 
-                data={this.state.data}
-                keyExtractor={item => item.idStudent}
-                renderItem={({ item }) => <BlockStudent 
-                                            type='logs' 
-                                            time={item.time} 
-                                            idStudent={item.idStudent}
-                                            nameStudent={item.nameStudent} 
-                                          />} 
-              />)
+    if (loaded) {
+      return (<FlatList
+        data={this.state.data}
+        keyExtractor={item => item.idStudent}
+        renderItem={({item}) => <BlockStudent
+          type='logs'
+          time={item.time}
+          idStudent={item.idStudent}
+          nameStudent={item.nameStudent}
+        />}
+      />)
     }
   }
+
   renderLogLoader() {
 
     // get status's loaded from stats
-    const { loaded } = this.state;
-    
+    const {loaded} = this.state;
+
     // If loaded have not yet, then render list log loader
-    if(!loaded) {
+    if (!loaded) {
       return (
-        <ListLogsLoader number={12} widthWrapper={AppConst.width - 20} />
+        <ListLogsLoader number={12} widthWrapper={AppConst.width - 20}/>
       )
     }
 
@@ -121,18 +130,18 @@ export class HomeScreen extends Component {
 
   render() {
     return (
-      <ScrollView 
-          showsVerticalScrollIndicator={false}
-          style={Utilitiesstyle.margin10}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={Utilitiesstyle.margin10}
       >
-        <StatusBarComponent />
-          <View>
-            <SearchBar onSubmit={this.onSubmitStudent} />
-          </View>
-          <View style={HomeStyle.wrapper}>
-            {this.renderLogLoader()}
-            {this.renderListStudent()}
-          </View>
+        <StatusBarComponent/>
+        <View>
+          <SearchBar onSubmit={this.onSubmitStudent}/>
+        </View>
+        <View style={HomeStyle.wrapper}>
+          {this.renderLogLoader()}
+          {this.renderListStudent()}
+        </View>
       </ScrollView>
     )
   }

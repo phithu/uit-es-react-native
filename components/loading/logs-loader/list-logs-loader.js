@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { FlatList, View } from 'react-native';
+
 import { LogsLoader } from './logs-loader';
-import { View, FlatList, Text } from 'react-native';
+
+
 export class ListLogsLoader extends Component {
   constructor(props) {
     super(props);
@@ -10,11 +13,12 @@ export class ListLogsLoader extends Component {
       }
     })
   }
+
   render() {
     return (
       <View>
         <FlatList data={this.listData}
-                  renderItem={({ item }) => <LogsLoader widthWrapper={this.props.widthWrapper}/>}>
+                  renderItem={({item}) => <LogsLoader widthWrapper={this.props.widthWrapper}/>}>
         </FlatList>
       </View>
     )

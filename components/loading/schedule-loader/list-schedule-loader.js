@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { FlatList, View } from 'react-native';
+
 import { ScheduleLoader } from './schedule-loader';
-import { View, FlatList, Text } from 'react-native';
+
 export class ListScheduleLoader extends Component {
   constructor(props) {
     super(props);
@@ -10,11 +12,12 @@ export class ListScheduleLoader extends Component {
       }
     })
   }
+
   render() {
     return (
       <View>
-        <FlatList data={this.listData} 
-                  renderItem={({ item }) => <ScheduleLoader widthWrapper={this.props.widthWrapper}/>}>
+        <FlatList data={this.listData}
+                  renderItem={({item}) => <ScheduleLoader widthWrapper={this.props.widthWrapper}/>}>
         </FlatList>
       </View>
     )

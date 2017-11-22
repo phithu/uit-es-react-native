@@ -1,5 +1,4 @@
-import { StyleSheet } from 'react-native';
-export const Utilitiesstyle = StyleSheet.create({
+export const Utilitiesstyle = {
   color_white: {
     color: '#fff'
   },
@@ -41,4 +40,4 @@ export const Utilitiesstyle = StyleSheet.create({
   spaceBetween: {
     justifyContent: 'space-between',
   }
-})
+}

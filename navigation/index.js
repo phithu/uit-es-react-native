@@ -1,6 +1,7 @@
-import { HomeScreen, HomeOptions } from '../screen/home';
-import { ExamScheduleScreen, ExamScheduleOptions } from '../screen/exam-schedule';
-import { ExamRoomScreen, ExamRoomOptions } from '../screen/exam-room';
+import { HomeOptions, HomeScreen } from '../screen/home';
+import { ExamScheduleScreen } from '../screen/exam-schedule';
+import { ExamRoomOptions, ExamRoomScreen } from '../screen/exam-room';
+
 export const MainNavigation = {
   HomeSreen: {
     screen: HomeScreen,
@@ -10,7 +11,7 @@ export const MainNavigation = {
     screen: ExamScheduleScreen,
   },
   ExamRoomScreen: {
-    screen: ExamRoomScreen, 
+    screen: ExamRoomScreen,
     navigationOptions: ExamRoomOptions
   }
 }

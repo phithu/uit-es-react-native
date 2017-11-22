@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import axios from 'axios';
+
 import { AppConst } from '../../config/app-const';
 import { ListSchedule } from '../../components/schedule/list-schedule';
 import { Utilitiesstyle } from '../../styles/utilities';
 import { ListScheduleLoader } from '../../components/loading/schedule-loader';
-import * as _ from 'lodash';
-
 
 
 export class ExamScheduleScreen extends Component {
@@ -21,15 +20,15 @@ export class ExamScheduleScreen extends Component {
   }
 
   componentDidMount() {
-    this.getExamSchedule(); 
-    this.props.navigation.addListener('focus',this.onOpenScreen);
-    this.props.navigation.addListener('blur',this.onCloseScreen);
+    this.getExamSchedule();
+    this.props.navigation.addListener('focus', this.onOpenScreen);
+    this.props.navigation.addListener('blur', this.onCloseScreen);
   }
 
   onOpenScreen = () => {
     // do something when open screen
     this.isOpen = false;
-   
+
   };
 
   onCloseScreen = () => {
@@ -37,7 +36,7 @@ export class ExamScheduleScreen extends Component {
   };
 
   getExamSchedule() {
-    axios.post(`${AppConst.domain}/student`, { idStudent: this.state.idStudent })
+    axios.post(`${AppConst.domain}/student`, {idStudent: this.state.idStudent})
       .then((response) => {
         let result = response.data;
         if (result.result) {
@@ -47,52 +46,76 @@ export class ExamScheduleScreen extends Component {
               listData: result.data.examSchedule,
               nameStudent: result.data.nameStudent
             })
-            this.props.navigation.setParams({ title: `Lịch thi ${this.state.nameStudent}` });
+            this.props.navigation.setParams({title: `Lịch thi ${this.state.nameStudent}`});
           } else {  // <-- The student haven't exist in database yet
             this.setState({
               isExistStudent: false,
               messages: result.data.msg
             });
-            this.props.navigation.setParams({ title: 'Sinh viên không tìm thấy' });
+            this.props.navigation.setParams({title: 'Sinh viên không tìm thấy'});
           }
         }
-        this.setState({ loaded: true });
+        this.setState({loaded: true});
       })
       .catch((err) => console.log(err));
   }
 
   openListSchedule = (data) => {
-    if(!this.isOpen) {
+    if (!this.isOpen) {
       this.props.navigation.navigate('ExamRoomScreen', {data: data, idStudent: this.state.idStudent});
       this.isOpen = true;
     }
   }
 
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.title || 'Loading...'
   });
 
-  render() {
-    if (this.state.loaded) { // <-- Have loaded
-      if (this.state.isExistStudent) {
-        // render exam schedule
-        // content = <ListSchedule openListSchedule={_.debounce(this.openListSchedule, 350)}
-        //   listData={this.state.listData} />
-        content = <ListSchedule openListSchedule={this.openListSchedule} 
-                                listData={this.state.listData} />
-      } else {
-        // render the student not found
-      }
-    } else {  // <-- Haven't loaded yet
-      // render loading
-      content = <ListScheduleLoader number={4} 
-                                    widthWrapper={AppConst.width - 20} />
+  renderListShedule() {
+    const {loaded} = this.state; // <-- Get status's loaded
+    const isExistStudent = this.state; // <-- Get status's isExistStudent
+
+    // if the var loaded have been loaded and student have been existed, then render ListSchedule Component
+    if (loaded && isExistStudent) {
+      return (
+        <ListSchedule openListSchedule={this.openListSchedule}
+                      listData={this.state.listData}/>
+      )
     }
+  }
+
+  renderListScheduleLoader() {
+    const {loaded} = this.state; // <-- Get status's loaded
+
+    // if the var loaded have not been loaded yet, then render ListScheduleLoader component
+    if (!loaded) {
+      return (
+        <ListScheduleLoader number={4}
+                            widthWrapper={AppConst.width - 20}/>
+      )
+    }
+  }
+
+  render() {
+    // if (this.state.loaded) { // <-- Have loaded
+    //   if (this.state.isExistStudent) {
+    //     // render exam schedule
+    //     content = <ListSchedule openListSchedule={this.openListSchedule}
+    //                             listData={this.state.listData}/>
+    //   } else {
+    //     // render the student not found
+    //   }
+    // } else {  // <-- Haven't loaded yet
+    //   // render loading
+    //   content = <ListScheduleLoader number={4}
+    //                                 widthWrapper={AppConst.width - 20}/>
+    // }
 
     return (
-      <ScrollView showsVerticalScrollIndicator={false} 
+      <ScrollView showsVerticalScrollIndicator={false}
                   style={Utilitiesstyle.margin10}>
-        {content}
+        {this.renderListShedule()}
+        {this.renderListScheduleLoader()}
       </ScrollView>
     )
   }
