@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text
+} from 'react-native';
 import axios from 'axios';
 
 import { AppConst } from '../../config/app-const';
 import { ListSchedule } from '../../components/schedule/list-schedule';
 import { Utilitiesstyle } from '../../styles/utilities';
 import { ListScheduleLoader } from '../../components/loading/schedule-loader';
-
+import { NotFound } from '../../components/not-found';
 
 export class ExamScheduleScreen extends Component {
 
@@ -35,27 +39,32 @@ export class ExamScheduleScreen extends Component {
     // do something when close screen
   };
 
+
   getExamSchedule() {
     axios.post(`${AppConst.domain}/student`, {idStudent: this.state.idStudent})
       .then((response) => {
         let result = response.data;
+
         if (result.result) {
           if (result.data) { // <-- The student exist in database
             this.setState({
               isExistStudent: true,
               listData: result.data.examSchedule,
               nameStudent: result.data.nameStudent
-            })
+            });
             this.props.navigation.setParams({title: `Lịch thi ${this.state.nameStudent}`});
-          } else {  // <-- The student haven't exist in database yet
+          }
+          else {  // <-- The student haven't exist in database yet
             this.setState({
               isExistStudent: false,
-              messages: result.data.msg
+              messages: result.msg
             });
             this.props.navigation.setParams({title: 'Sinh viên không tìm thấy'});
           }
         }
+
         this.setState({loaded: true});
+
       })
       .catch((err) => console.log(err));
   }
@@ -65,24 +74,38 @@ export class ExamScheduleScreen extends Component {
       this.props.navigation.navigate('ExamRoomScreen', {data: data, idStudent: this.state.idStudent});
       this.isOpen = true;
     }
-  }
+  };
 
   static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.title || 'Loading...'
   });
 
   renderListShedule() {
-    const {loaded} = this.state; // <-- Get status's loaded
-    const isExistStudent = this.state; // <-- Get status's isExistStudent
-
-    // if the var loaded have been loaded and student have been existed, then render ListSchedule Component
-    if (loaded && isExistStudent) {
+    if (this.state.listData && this.state.listData.length > 0) {
       return (
         <ListSchedule openListSchedule={this.openListSchedule}
                       listData={this.state.listData}/>
       )
     }
+
   }
+
+  renderStudentNotFound() {
+    return <NotFound mesages="Sinh viên không tồn tại trong hệ thống" />
+  }
+
+  renderContent() {
+    const {loaded} = this.state; // <-- Get status's loaded
+    const {isExistStudent} = this.state; // <-- Get status's isExistStudent
+
+    if (loaded) {
+      if (isExistStudent) {
+        return this.renderListShedule()
+      }
+      return this.renderStudentNotFound();
+    }
+  }
+
 
   renderListScheduleLoader() {
     const {loaded} = this.state; // <-- Get status's loaded
@@ -97,25 +120,12 @@ export class ExamScheduleScreen extends Component {
   }
 
   render() {
-    // if (this.state.loaded) { // <-- Have loaded
-    //   if (this.state.isExistStudent) {
-    //     // render exam schedule
-    //     content = <ListSchedule openListSchedule={this.openListSchedule}
-    //                             listData={this.state.listData}/>
-    //   } else {
-    //     // render the student not found
-    //   }
-    // } else {  // <-- Haven't loaded yet
-    //   // render loading
-    //   content = <ListScheduleLoader number={4}
-    //                                 widthWrapper={AppConst.width - 20}/>
-    // }
 
     return (
       <ScrollView showsVerticalScrollIndicator={false}
                   style={Utilitiesstyle.margin10}>
-        {this.renderListShedule()}
         {this.renderListScheduleLoader()}
+        {this.renderContent()}
       </ScrollView>
     )
   }

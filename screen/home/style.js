@@ -1,3 +1,5 @@
+import { AppConst } from "../../config/app-const";
+
 export const HomeStyle = {
   SearchBarContainer: {
     backgroundColor: '#fff',
@@ -14,7 +16,19 @@ export const HomeStyle = {
   textRecent: {
     paddingLeft: 15,
     paddingVertical: 10,
-    fontSize:16,
+    fontSize: 16,
     fontWeight: 'bold',
+  },
+  validatorError: {
+    backgroundColor: AppConst.color.danger,
+    marginTop: 10,
+    borderRadius: 5,
+    paddingVertical: 5,
+  },
+  textError: {
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: 'bold'
   }
+
 }
