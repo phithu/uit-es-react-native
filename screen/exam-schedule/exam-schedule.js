@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {
   ScrollView,
-  View,
-  Text
+  DatePickerAndroid
 } from 'react-native';
 import axios from 'axios';
 
@@ -76,6 +75,24 @@ export class ExamScheduleScreen extends Component {
     }
   };
 
+  async openDatePicker(data) {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open({
+        // Use `new Date()` for current date.
+        // May 25 2020. Month 0 is January.
+        date: new Date()
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        // Do something when Ok clicked
+      } else {
+        // Do something when Cancel clicked
+
+      }
+    } catch ({code, message}) {
+      console.warn('Cannot open date picker', message);
+    }
+  }
+
   static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.title || 'Loading...'
   });
@@ -83,15 +100,17 @@ export class ExamScheduleScreen extends Component {
   renderListShedule() {
     if (this.state.listData && this.state.listData.length > 0) {
       return (
-        <ListSchedule openListSchedule={this.openListSchedule}
-                      listData={this.state.listData}/>
+        <ListSchedule
+          openDatePicker={(data) => this.openDatePicker(data)}
+          openListSchedule={this.openListSchedule}
+          listData={this.state.listData}/>
       )
     }
 
   }
 
   renderStudentNotFound() {
-    return <NotFound mesages="Sinh viên không tồn tại trong hệ thống" />
+    return <NotFound mesages="Sinh viên không tồn tại trong hệ thống"/>
   }
 
   renderContent() {
